@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create new message</title>
+</head>
+<body>
+    <% if (user) { %>
+        <h1>Please log in.</h1>
+        <form action="/create-new-message" method="POST">
+            <label for="title">Message title</label>
+            <input id="title" name="title" placeholder="Title" type="text" />
+            <label for="text">Message text</label>
+            <input id="text" name="text" placeholder="Your new message" type="text" />
+            <button>Create new message</button>
+        </form>
+        <a href="/">Back to homepage</a>
+    <% } else { %>
+        <h1>Please log in to access this page</h1>
+        <a href="/">Back to homepage</a>
+    <% } %>
+</body>
+</html>
