@@ -26,13 +26,13 @@ app.use(session({
 app.use(passport.session());
 
 passport.use(
-    new LocalStrategy(async (username, password, done) => {
+    new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
         try {
             const user = await prisma.user.findUnique({
-                where: { username: username },
+                where: { email: email },
             });
             if (!user) {
-                return done(null, false, { message: "Incorrect username" });
+                return done(null, false, { message: "Incorrect email" });
             }
 
             const isMatch = await bcrypt.compare(password, user.password);
@@ -65,8 +65,10 @@ passport.deserializeUser(async (id, done) => {
 // routes
 const signUpRoute = require('./routes/signUpRoute');
 const membershipRoute = require('./routes/membershipRoute');
+const indexRoute = require('./routes/indexRoute');
 app.use('/sign-up', signUpRoute);
 app.use('/membership', membershipRoute);
+app.use('/', indexRoute);
 
 // launch
 const port = process.env.PORT || 3000;
